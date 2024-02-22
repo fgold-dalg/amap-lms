@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+  form(
+    role='form'
+    action='/adherent/ajout-adherent'
+    method='POST' 
+  )
+    label nom:  
+    input(type='text' name='nom')
+    label prénom:  
+    input(type='text' name='prenom')
+    label adresse:  
+    input(type='text' name='adresse')
+    label téléphone:  
+    input(type='tel' name='tel')
+    label Courriel:  
+    input(type='email' name='courriel' placeholder='nom@yopmail.com') 
+    input(type='submit' value='envoyer')
+
+
+
+

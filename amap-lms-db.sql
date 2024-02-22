@@ -25,7 +25,7 @@ CREATE SCHEMA IF NOT EXISTS "lms"
 
 CREATE TABLE IF NOT EXISTS "lms".adherent
 (
-    "id" integer NOT NULL,
+    "id" serial NOT NULL,
     "nom" character(30) COLLATE pg_catalog."default",
     "prenom" character(30) COLLATE pg_catalog."default",
     "adresse" character(200) COLLATE pg_catalog."default",
