@@ -9,6 +9,7 @@ var adherentRouter = require('./routes/adherent');
 
 var app = express();
 
+// port de connection au site web
 const port = 3000
 
 // view engine setup

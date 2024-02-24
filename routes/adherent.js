@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 /* Connection à la base de données postgresql */
+var config = require("../config");
 var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://postgres:mdp@127.0.0.1:5432/AMAP");
+var db = pgp("postgres://"+config.database.user+":"+config.database.pwd+"@"+config.database.host+":"+config.database.port+"/"+config.database.db);
 
 /* Obtention liste des adhérents */
 router.get('/', function(req, res, next) {
