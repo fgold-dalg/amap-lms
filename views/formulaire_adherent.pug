@@ -19,6 +19,11 @@ block content
     input(type='email' name='courriel' placeholder='nom@yopmail.com') 
     input(type='submit' value='envoyer')
 
+  // Affichage des erreurs 
+  ul
+    each erreur in listeErreur
+      li= erreur['path']+':  '+erreur['msg']
+
 
 
 
