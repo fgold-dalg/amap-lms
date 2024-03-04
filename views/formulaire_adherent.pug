@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1= titre
+  form(
+    role='form'
+    action='/adherent/ajout-adherent'
+    method='POST' 
+  )
+    label nom:  
+    input(type='text' name='nom')
+    label prénom:  
+    input(type='text' name='prenom')
+    label adresse:  
+    input(type='text' name='adresse')
+    label téléphone:  
+    input(type='tel' name='tel')
+    label Courriel:  
+    input(type='email' name='courriel' placeholder='nom@yopmail.com') 
+    input(type='submit' value='Envoyer')
+
+  // Affichage des erreurs 
+  div(class='rouge')
+    ul
+      each erreur in listeErreur
+        li= erreur['path']+':  '+erreur['msg']
+
+
+
+
