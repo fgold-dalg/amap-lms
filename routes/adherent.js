@@ -9,16 +9,16 @@ const { body,validationResult } = require('express-validator');
 
 /* Obtention liste des adhérents */
 router.get('/', function(req, res, next) {
-  res.render('liste_adherents', { titre: 'Liste des adhérents' }); 
+  res.render('adherent/liste', { titre: 'Liste des adhérents' }); 
 });
 
 /* Formulaire ajout d'un adhérent */
 router.get('/ajout', function(req, res, next) {
-  res.render('formulaire_adherent', { titre: 'Formulaire - Ajout d\'un Adhérent', listeErreur:[] }); 
+  res.render('adherent/formulaire', { titre: 'Formulaire - Ajout d\'un Adhérent', listeErreur:[] }); 
 });
 
 /* Formulaire ajout d'un adhérent - insertion données dans base */
-router.post('/ajout-adherent',formValidator.adherentValidator, function(req, res, next) {
+router.post('/ajout',formValidator.adherentValidator, function(req, res, next) {
   // Contrôle si erreur dans saisie formulaire
   const listeErreur = validationResult(req);
   if (listeErreur.isEmpty()) {
@@ -34,12 +34,12 @@ router.post('/ajout-adherent',formValidator.adherentValidator, function(req, res
     return res.status(200).json()
   } else{
     // Affichage des erreurs trouvées lors de la saisie du formulaire ajout d'adhérent
-    res.render('formulaire_adherent', { titre: 'Formulaire - Ajout d\'un Adhérent', listeErreur: listeErreur.array() });
+    res.render('adherent/formulaire', { titre: 'Formulaire - Ajout d\'un Adhérent', listeErreur: listeErreur.array() });
   }
 });
 
-/* Formulaire ajout d'un adhérent */
+/* Formulaire modification d'un adhérent */
 router.get('/modification', function(req, res, next) {
-  res.render('formulaire_adherent', { titre: 'Formulaire - Modification d\'un Adhérent' });
+  res.render('adherent/formulaire', { titre: 'Formulaire - Modification d\'un Adhérent' });
 });
 module.exports = router;
