@@ -9,7 +9,7 @@ const { body,validationResult } = require('express-validator');
 
 /* Obtention liste des adhérents */
 router.get('/', function(req, res, next) {
-  res.send('liste des adhérents');
+  res.render('liste_adherents', { titre: 'Liste des adhérents' }); 
 });
 
 /* Formulaire ajout d'un adhérent */

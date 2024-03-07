@@ -4,4 +4,11 @@ html
     title= 'AMAP-LMS -' + titre
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    nav() 
+      ul 
+        li
+          a(href='/') Accueil 
+        li
+          a(href='/adherent/') Liste des adhérents
+    hr
     block content
