@@ -1,3 +1,4 @@
+/* CSS des balises HTML */
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -7,6 +8,14 @@ a {
   color: #00B7FF;
 }
 
+table td, table th{
+  padding: 0.5em 1em;
+}
+table tr:nth-child(even) {
+  background-color: #bebebe;
+}
+
+/* CSS : Classes */
 .rouge {
   color: red;
 }

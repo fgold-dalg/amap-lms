@@ -8,8 +8,16 @@ const { body,validationResult } = require('express-validator');
 
 
 /* Obtention liste des adhérents */
-router.get('/', function(req, res, next) {
-  res.render('adherent/liste', { titre: 'Liste des adhérents' }); 
+router.get('/', async function(req, res, next) {
+  var listeAdherent= [];    
+  await modAdherent.recuperer()
+  .then(function (donnees) {
+      listeAdherent= donnees;
+  })
+  .catch(function (erreur) {
+      console.log("ERROR:", erreur);
+    });
+  res.render('adherent/liste', { titre: 'Liste des adhérents', listeAdherent: listeAdherent }); 
 });
 
 /* Formulaire ajout d'un adhérent */
