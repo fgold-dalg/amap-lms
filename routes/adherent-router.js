@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const modAdherent = require('../models/mod-adherent');
+const modAdherent = require('../models/adherent-models');
 const formValidator = require('../models/form-validator');
 const { body,validationResult } = require('express-validator');
 
