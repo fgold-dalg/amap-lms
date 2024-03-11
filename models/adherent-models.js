@@ -15,6 +15,6 @@ function ajout(nom,prenom,adresse,courriel,telephone){
 
 // Requête SQL récupérer adhérent
 function recuperer(nom,prenom,adresse,courriel,telephone){
-    var resultat = db.many("SELECT nom, prenom, adresse, telephone, courriel FROM lms.adherent");
+    var resultat = db.many("SELECT nom, prenom, adresse, telephone, courriel FROM lms.adherent ORDER BY nom ASC");
     return resultat;
 } 
