@@ -12,11 +12,11 @@ router.get('/', async function(req, res, next) {
   var listeAdherent= [];    
   await modAdherent.recuperer()
   .then(function (donnees) {
-      listeAdherent= donnees;
+    listeAdherent= donnees;
   })
   .catch(function (erreur) {
-      console.log("ERROR:", erreur);
-    });
+    console.log("ERROR:", erreur);
+  });
   res.render('adherent/liste', { titre: 'Liste des adhérents', listeAdherent: listeAdherent }); 
 });
 
@@ -33,13 +33,11 @@ router.post('/ajout',formValidator.adherentValidator, function(req, res, next) {
     // Ajout dans base si pas d'erreur
     modAdherent.ajout(req.body['nom'],req.body['prenom'],req.body['adresse'],req.body['courriel'],req.body['tel'])
       .then(function (donnees) {
-          console.log("DATA:", donnees);
+        res.redirect('/adherent/'); 
       })
       .catch(function (erreur) {
-          console.log("ERROR:", erreur);
+        console.log("ERROR:", erreur);
       });
-    res.send("reçue");
-    return res.status(200).json()
   } else{
     // Affichage des erreurs trouvées lors de la saisie du formulaire ajout d'adhérent
     res.render('adherent/formulaire', { titre: 'Formulaire - Ajout d\'un Adhérent', listeErreur: listeErreur.array() });
