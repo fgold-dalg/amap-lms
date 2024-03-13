@@ -3,3 +3,28 @@ extends ../layout
 block content
   h1= titre
   a(href='/adherent/ajout') Ajout d'un adhérent
+  // Affichage des Adhérents
+  div
+    table 
+      thead 
+        tr 
+          th Nom 
+          th Prénom
+          th Adresse
+          th Courriel
+          th Téléphone
+      tbody 
+        each adherent in listeAdherent 
+          tr
+            td= adherent.nom
+            td= adherent.prenom
+            td= adherent.adresse
+            td= adherent.courriel
+            td= adherent.telephone
+        else 
+          tr 
+            td pas de données          
+      tfoot 
+        tr 
+          th Nombre adhérent(s)
+          td= listeAdherent.length
