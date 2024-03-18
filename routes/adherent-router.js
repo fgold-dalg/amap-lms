@@ -48,4 +48,16 @@ router.post('/ajout',formValidator.adherentValidator, function(req, res, next) {
 router.get('/modification', function(req, res, next) {
   res.render('adherent/formulaire', { titre: 'Formulaire - Modification d\'un Adhérent' });
 });
+
+/* Suppression d'un adhérent */
+router.get('/suppression/:idAdh', async function(req, res) {
+  await modAdherent.suppression(req.params.idAdh)
+    .then(function (donnees) {
+      res.redirect('/adherent/'); 
+    })
+    .catch(function (erreur) {
+      console.log("ERROR:", erreur);
+      res.send("L'ID adhérent : " + req.params.idAdh + " n'a pas été trouvé !");
+    });
+});
 module.exports = router;

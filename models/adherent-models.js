@@ -5,7 +5,8 @@ var db = pgp("postgres://"+config.database.user+":"+config.database.pwd+"@"+conf
 
 module.exports = {
     ajout,
-    recuperer
+    recuperer,
+    suppression
 };
 
 // Requête SQL ajout adhérent
@@ -15,6 +16,11 @@ function ajout(nom,prenom,adresse,courriel,telephone){
 
 // Requête SQL récupérer adhérent
 function recuperer(nom,prenom,adresse,courriel,telephone){
-    var resultat = db.many("SELECT nom, prenom, adresse, telephone, courriel FROM lms.adherent ORDER BY nom ASC");
+    var resultat = db.many("SELECT id, nom, prenom, adresse, telephone, courriel FROM lms.adherent ORDER BY nom ASC");
     return resultat;
+} 
+
+// Requête SQL supprimer adhérent
+function suppression(id){
+    return db.one("DELETE FROM lms.adherent WHERE id = $1",[id]);
 } 
