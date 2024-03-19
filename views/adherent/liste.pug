@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   h1= titre
-  a(href='/adherent/ajout') Ajout d'un adhérent
+  a(href='/adherent/ajouter') Ajouter un adhérent
   // Affichage des Adhérents
   div
     table 
@@ -23,10 +23,10 @@ block content
             td= adherent.courriel
             td= adherent.telephone
             td 
-              a(href='/adherent/suppression/'+adherent.id) supprime
+              a(title='Supprimer' href='/adherent/supprimer/'+adherent.id) 	&#10060; 
         else 
           tr 
-            td pas de données          
+            td Pas de données          
       tfoot 
         tr 
           th Nombre adhérent(s)
