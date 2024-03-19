@@ -22,5 +22,6 @@ function recuperer(nom,prenom,adresse,courriel,telephone){
 
 // Requête SQL supprimer adhérent
 function suppression(id){
-    return db.one("DELETE FROM lms.adherent WHERE id = $1",[id]);
+    // Nativement DELETE ne retourne pas de résultat si la requête est valide. Le "RETURNING" permet d'y remédier.
+    return db.one("DELETE FROM lms.adherent WHERE id = $1 RETURNING id",[id]);
 } 
