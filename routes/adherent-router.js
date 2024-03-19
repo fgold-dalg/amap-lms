@@ -21,17 +21,17 @@ router.get('/', async function(req, res, next) {
 });
 
 /* Formulaire ajout d'un adhérent */
-router.get('/ajout', function(req, res, next) {
-  res.render('adherent/formulaire', { titre: 'Formulaire - Ajout d\'un Adhérent', listeErreur:[] }); 
+router.get('/ajouter', function(req, res, next) {
+  res.render('adherent/formulaire', { titre: 'Formulaire - Ajouter un Adhérent', listeErreur:[] }); 
 });
 
 /* Formulaire ajout d'un adhérent - insertion données dans base */
-router.post('/ajout',formValidator.adherentValidator, function(req, res, next) {
+router.post('/ajouter',formValidator.adherentValidator, function(req, res, next) {
   // Contrôle si erreur dans saisie formulaire
   const listeErreur = validationResult(req);
   if (listeErreur.isEmpty()) {
     // Ajout dans base si pas d'erreur
-    modAdherent.ajout(req.body['nom'],req.body['prenom'],req.body['adresse'],req.body['courriel'],req.body['tel'])
+    modAdherent.ajouter(req.body['nom'],req.body['prenom'],req.body['adresse'],req.body['courriel'],req.body['tel'])
       .then(function (donnees) {
         res.redirect('/adherent/'); 
       })
@@ -47,5 +47,17 @@ router.post('/ajout',formValidator.adherentValidator, function(req, res, next) {
 /* Formulaire modification d'un adhérent */
 router.get('/modification', function(req, res, next) {
   res.render('adherent/formulaire', { titre: 'Formulaire - Modification d\'un Adhérent' });
+});
+
+/* Suppression d'un adhérent */
+router.get('/supprimer/:idAdh', async function(req, res) {
+  await modAdherent.supprimer(req.params.idAdh)
+    .then(function (donnees) {
+      res.redirect('/adherent/'); 
+    })
+    .catch(function (erreur) {
+      console.log("ERROR:", erreur);
+      res.send("L'ID adhérent : " + req.params.idAdh + " n'a pas été trouvé !");
+    });
 });
 module.exports = router;
