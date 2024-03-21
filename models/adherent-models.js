@@ -5,7 +5,8 @@ var db = pgp("postgres://"+config.database.user+":"+config.database.pwd+"@"+conf
 
 module.exports = {
     ajouter,
-    recuperer,
+    recupererToutAdh,
+    recupererUnAdh,
     supprimer
 };
 
@@ -14,9 +15,15 @@ function ajouter(nom,prenom,adresse,courriel,telephone){
     return db.one("INSERT INTO lms.adherent(nom,prenom,adresse,courriel,telephone) VALUES ($1,$2,$3,$4,$5) RETURNING *",[nom,prenom,adresse,courriel,telephone])
 }
 
-// Requête SQL récupérer adhérent
-function recuperer(nom,prenom,adresse,courriel,telephone){
+// Requête SQL récupérer tous les adhérents
+function recupererToutAdh(nom,prenom,adresse,courriel,telephone){
     var resultat = db.many("SELECT id, nom, prenom, adresse, telephone, courriel FROM lms.adherent ORDER BY nom ASC");
+    return resultat;
+} 
+
+// Requête SQL récupérer un adhérent
+function recupererUnAdh(id){
+    var resultat = db.one("SELECT id, nom, prenom, adresse, telephone, courriel FROM lms.adherent WHERE id=$1",[id]);
     return resultat;
 } 
 

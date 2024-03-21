@@ -10,7 +10,7 @@ const { body,validationResult } = require('express-validator');
 /* Obtention liste des adhérents */
 router.get('/', async function(req, res, next) {
   var listeAdherent= [];    
-  await modAdherent.recuperer()
+  await modAdherent.recupererToutAdh()
   .then(function (donnees) {
     listeAdherent= donnees;
   })
@@ -45,8 +45,25 @@ router.post('/ajouter',formValidator.adherentValidator, function(req, res, next)
 });
 
 /* Formulaire modification d'un adhérent */
-router.get('/modification', function(req, res, next) {
-  res.render('adherent/formulaire', { titre: 'Formulaire - Modification d\'un Adhérent' });
+router.get('/modifier/:idAdh', async function(req, res) {
+  var adherent = '';
+  await modAdherent.recupererUnAdh(req.params.idAdh)
+    .then(function (donnees) {
+      adherent = {
+        id: donnees.id,
+        nom: donnees.nom,
+        prenom: donnees.prenom,
+        adresse: donnees.adresse,
+        tel: donnees.telephone,
+        courriel: donnees.courriel,
+      };
+      console.log(adherent);
+    })
+    .catch(function (erreur) {
+      console.log("ERROR:", erreur);
+      res.send("L'ID adhérent : " + req.params.idAdh + " n'a pas été trouvé !");
+    });
+    res.render('adherent/formulaire', { titre: 'Formulaire - Modification d\'un Adhérent', adherent: adherent, listeErreur: [] }); 
 });
 
 /* Suppression d'un adhérent */

@@ -8,15 +8,21 @@ block content
     method='POST' 
   )
     label Nom :  
-    input(type='text' name='nom')
+    input(type='text' name='nom' value=adherent.nom)
     label Prénom :  
-    input(type='text' name='prenom')
+    input(type='text' name='prenom' value=adherent.prenom)
     label Adresse :  
-    input(type='text' name='adresse')
-    label Téléphone :  
-    input(type='tel' name='tel')
+    input(type='text' name='adresse' value=adherent.adresse)
+    label Téléphone :
+    if adherent.tel  
+      input(type='tel' name='tel' value=adherent.tel) 
+    else  
+      input(type='tel' name='tel' placeholder='0102030405')
     label Courriel :  
-    input(type='email' name='courriel' placeholder='nom@mail.fr') 
+    if adherent.courriel
+      input(type='email' name='courriel' value=adherent.courriel)
+    else  
+      input(type='email' name='courriel' placeholder='courriel@domain.com') 
     input(type='submit' value='Envoyer')
 
   // Affichage des erreurs 
