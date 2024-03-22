@@ -4,9 +4,12 @@ block content
   h1= titre
   form(
     role='form'
-    action='/adherent/ajouter'
+    action='/adherent/ajouter-modifier'
     method='POST' 
   )
+    // le type hidden : Permet de récupérer de façon transparente l'id quand il existe afin de distinguer la modification d'un ajout
+    input(type='hidden' value=adherent.id)
+    // Champs de saisie utilisateur pré-rempli si la valeur (value) existe
     label Nom :  
     input(type='text' name='nom' value=adherent.nom)
     label Prénom :  

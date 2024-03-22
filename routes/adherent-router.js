@@ -3,12 +3,12 @@ var router = express.Router();
 
 const modAdherent = require('../models/adherent-models');
 const formValidator = require('../models/form-validator');
-const { body,validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 
 
 
 /* Obtention liste des adhérents */
-router.get('/', async function(req, res, next) {
+router.get('/', async function(req, res) {
   var listeAdherent= [];    
   await modAdherent.recupererToutAdh()
   .then(function (donnees) {
@@ -21,26 +21,53 @@ router.get('/', async function(req, res, next) {
 });
 
 /* Formulaire ajout d'un adhérent */
-router.get('/ajouter', function(req, res, next) {
-  res.render('adherent/formulaire', { titre: 'Formulaire - Ajouter un Adhérent', listeErreur:[] }); 
+router.get('/ajouter', function(req, res) {
+  res.render('adherent/formulaire', { titre: 'Formulaire - Ajouter un Adhérent',adherent:[], listeErreur:[] }); 
 });
 
-/* Formulaire ajout d'un adhérent - insertion données dans base */
-router.post('/ajouter',formValidator.adherentValidator, function(req, res, next) {
+/* Formulaire ajout ou de modification d'un adhérent - insertion/modification données dans base */
+router.post('/ajouter-modifier',formValidator.adherentValidator, function(req, res, next) {
+  var adherent = {
+    nom: req.body['nom'],
+    prenom: req.body['prenom'],
+    adresse: req.body['adresse'] ,
+    tel: req.body['tel'],
+    courriel: req.body['courriel'],
+  };
   // Contrôle si erreur dans saisie formulaire
   const listeErreur = validationResult(req);
   if (listeErreur.isEmpty()) {
-    // Ajout dans base si pas d'erreur
-    modAdherent.ajouter(req.body['nom'],req.body['prenom'],req.body['adresse'],req.body['courriel'],req.body['tel'])
-      .then(function (donnees) {
-        res.redirect('/adherent/'); 
-      })
-      .catch(function (erreur) {
-        console.log("ERROR:", erreur);
+    // Si id existe alors modification de l'adhérent existant sinon ajout du nouvel adhérent
+    if ( req.body['id']){
+      adherent.id = req.body['id'];
+      modAdherent.modifier(adherent.nom,adherent.prenom,adherent.adresse,adherent.courriel,adherent.tel,adherent.id)
+        .then(function () {
+          res.redirect('/adherent/'); 
+        })
+        .catch(function (erreur) {
+          console.log("ERROR:", erreur);
       });
+    }
+    else{
+      // Ajout dans base si pas d'erreur
+      modAdherent.ajouter(adherent.nom,adherent.prenom,adherent.adresse,adherent.courriel,adherent.tel)
+        .then(function () {
+          res.redirect('/adherent/'); 
+        })
+        .catch(function (erreur) {
+          console.log("ERROR:", erreur);
+        });
+    };
   } else{
+      // Affiche le bon titre de formulaire en fonction de l'existence d'un id (signifie qu'un adhérent existe => modification)
+      if (req.body['id']) {
+        var titre = 'Formulaire - Modification d\'un Adhérent'
+      }
+      else{
+        var titre = 'Formulaire - Ajout d\'un Adhérent'
+      };
     // Affichage des erreurs trouvées lors de la saisie du formulaire ajout d'adhérent
-    res.render('adherent/formulaire', { titre: 'Formulaire - Ajout d\'un Adhérent', listeErreur: listeErreur.array() });
+    res.render('adherent/formulaire', { titre: titre, adherent: adherent, listeErreur: listeErreur.array() });
   }
 });
 
@@ -49,15 +76,15 @@ router.get('/modifier/:idAdh', async function(req, res) {
   var adherent = '';
   await modAdherent.recupererUnAdh(req.params.idAdh)
     .then(function (donnees) {
+      // Permet de stabiliser l'assignation des valeurs de la base de données dans une variable structurée
       adherent = {
         id: donnees.id,
-        nom: donnees.nom,
-        prenom: donnees.prenom,
-        adresse: donnees.adresse,
+        nom: donnees.nom.trim(),
+        prenom: donnees.prenom.trim(),
+        adresse: donnees.adresse.trim(),
         tel: donnees.telephone,
-        courriel: donnees.courriel,
+        courriel: donnees.courriel.trim(),
       };
-      console.log(adherent);
     })
     .catch(function (erreur) {
       console.log("ERROR:", erreur);
