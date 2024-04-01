@@ -6,8 +6,9 @@ const formValidator = require('../models/form-validator');
 const { validationResult } = require('express-validator');
 
 
-
-/* Obtention liste des adhérents */
+/**
+ * Obtention liste des adhérents 
+ */
 router.get('/', async function(req, res) {
   var listeAdherent= [];    
   await modAdherent.recupererToutAdh()
@@ -20,12 +21,18 @@ router.get('/', async function(req, res) {
   res.render('adherent/liste', { titre: 'Liste des adhérents', listeAdherent: listeAdherent }); 
 });
 
-/* Formulaire ajout d'un adhérent */
+
+/**
+ * Formulaire ajout d'un adhérent
+ */
 router.get('/ajouter', function(req, res) {
   res.render('adherent/formulaire', { titre: 'Formulaire - Ajouter un Adhérent',adherent:[], listeErreur:[] }); 
 });
 
-/* Formulaire ajout ou de modification d'un adhérent - insertion/modification données dans base */
+
+/**
+ * Formulaire ajout ou de modification d'un adhérent - insertion/modification données dans base
+ */
 router.post('/ajouter-modifier',formValidator.adherentValidator, function(req, res, next) {
   var adherent = {
     nom: req.body['nom'],
@@ -71,7 +78,10 @@ router.post('/ajouter-modifier',formValidator.adherentValidator, function(req, r
   }
 });
 
-/* Formulaire modification d'un adhérent */
+
+/**
+ * Formulaire modification d'un adhérent
+ */
 router.get('/modifier/:idAdh', async function(req, res) {
   var adherent = '';
   await modAdherent.recupererUnAdh(req.params.idAdh)
@@ -93,7 +103,10 @@ router.get('/modifier/:idAdh', async function(req, res) {
     res.render('adherent/formulaire', { titre: 'Formulaire - Modification d\'un Adhérent', adherent: adherent, listeErreur: [] }); 
 });
 
-/* Suppression d'un adhérent */
+
+/**
+ * Suppression d'un adhérent
+ */
 router.get('/supprimer/:idAdh', async function(req, res) {
   await modAdherent.supprimer(req.params.idAdh)
     .then(function (donnees) {

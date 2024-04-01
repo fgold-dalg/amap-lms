@@ -23,7 +23,7 @@ block content
             td= adherent.courriel
             td= adherent.telephone
             td 
-              a(title='Supprimer' href='/adherent/supprimer/'+adherent.id) 	&#10060; 
+              a(title='Supprimer' href='/adherent/supprimer/'+adherent.id class='pop-up-confirmation') 	&#10060; 
               a(title='Modifier' href='/adherent/modifier/'+adherent.id) 	&#128394; 
         else 
           tr 
