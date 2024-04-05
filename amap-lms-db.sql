@@ -41,7 +41,7 @@ CREATE TABLE lms.oeuf (
     id SERIAL PRIMARY KEY,
     quantite INTEGER NOT NULL
 ) INHERITS (lms.contrat);
-COMMENT ON COLUMN lms.oeuf.quantite IS 'Nombre de boîte d oeufs';
+COMMENT ON COLUMN lms.oeuf.quantite IS 'Nombre de boîte de six oeufs';
 
 CREATE TABLE lms.fruit (
     id SERIAL PRIMARY KEY,
@@ -62,8 +62,8 @@ COMMENT ON TABLE lms.formule IS 'Assortiment de divers fromages gérés par le f
 CREATE TABLE lms.fromage (
     id SERIAL PRIMARY KEY,
     formule_id INTEGER REFERENCES lms.formule(id),
-    supplement_sucre BOOLEAN NOT NULL,
-    supplement_sale BOOLEAN NOT NULL
+    sans_sucre BOOLEAN NOT NULL, 
+    supplement BOOLEAN NOT NULL
 ) INHERITS (lms.contrat);
-COMMENT ON COLUMN lms.fromage.supplement_sucre IS 'Supplement sucre, oui ou non';
-COMMENT ON COLUMN lms.fromage.supplement_sale IS 'Supplement salé, oui ou non';
+COMMENT ON COLUMN lms.fromage.sans_sucre IS 'retrait des suppléments sucrés, oui ou non';
+COMMENT ON COLUMN lms.fromage.supplement IS 'Supplement aromatisé, oui ou non';
