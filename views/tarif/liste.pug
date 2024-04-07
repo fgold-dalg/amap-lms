@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  h1= titre
+  a(href='/tarif/ajouter') Ajouter un tarif
+  // Affichage des tarifs
+  div
+    table 
+      thead 
+        tr 
+          th Nom 
+          th Prix en euros
+          th Action
+      tbody 
+        each tarif in listeTarif 
+          tr
+            td= tarif.nom
+            td= tarif.prix
+            td 
+              a(title='Supprimer' href='/tarif/supprimer/'+tarif.id class='pop-up-confirmation') 	&#10060; 
+              a(title='Modifier' href='/tarif/modifier/'+tarif.id) 	&#128394; 
+        else 
+          tr 
+            td Pas de données          
+      tfoot 
+        tr 
+          th Nombre tarif(s)
+          td= listeTarif.length

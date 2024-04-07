@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-// Règles de validation du formulaire d'ajout d'adhérents
+// Règles de validation du formulaire d'ajout  et de modification des adhérents
 const adherentValidator = [
   body('nom', 'Ce champs ne peut être vide').notEmpty(),
   body('prenom', 'Ce champs ne peut être vide').notEmpty(),
@@ -13,7 +13,14 @@ const adherentValidator = [
   body('tel', 'Longueur incorrecte - 10 chiffres attendus').isLength({min:10,max:10}),
 ];
 
+// Règles de validation du formulaire d'ajout et de modification des tarifs
+const tarifValidator = [
+  body('nom', 'Ce champs ne peut être vide').notEmpty(),
+  body('prix', 'Ce champs ne peut être vide').notEmpty(),
+  body('prix', 'Format incorrect - un nombre est attendu').isNumeric(),
+];
 
 module.exports = {
-    adherentValidator
+    adherentValidator,
+    tarifValidator
 }
