@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  h1= titre
+  form(
+    role='form'
+    action='/tarif/ajouter-modifier'
+    method='POST' 
+  )
+    // le type hidden : Permet de récupérer de façon transparente l'id quand il existe afin de distinguer la modification d'un ajout
+    input(type='hidden' name='id' value=tarif.id)
+    // Champs de saisie utilisateur pré-rempli si la valeur (value) existe
+    label Nom :  
+    input(type='text' name='nom' value=tarif.nom)
+    label Prix en euros :  
+    input(type='number' step='.01' min='0' name='prix' value=tarif.prix)
+    input(type='submit' value='Envoyer')
+
+  // Affichage des erreurs 
+  div(class='rouge')
+    ul
+      each erreur in listeErreur
+        li= erreur.path+':  '+erreur.msg
+
+
+
+

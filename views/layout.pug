@@ -1,5 +1,5 @@
 doctype html
-html
+html(lang='fr')
   head
     title= 'AMAP-LMS - ' + titre
     link(rel='stylesheet', href='/stylesheets/style.css')
@@ -11,5 +11,7 @@ html
           a(href='/') Accueil 
         li
           a(href='/adherent/') Liste des adhérents
+        li
+          a(href='/tarif/') Liste des tarifs
     hr
     block content
