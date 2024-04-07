@@ -27,7 +27,8 @@ CREATE TABLE lms.contrat (
     nom VARCHAR(255) NOT NULL,
     responsable_id INTEGER REFERENCES lms.adherent(id),
     nb_max_reglements INTEGER NOT NULL,
-    tarif_id INTEGER REFERENCES lms.tarif(id)
+    tarif_id INTEGER REFERENCES lms.tarif(id),
+    commentaire VARCHAR(255)
 );
 COMMENT ON TABLE lms.contrat IS 'La table "contrat" est une table "parent" qui contient des rubriques que toutes les tables héritantes auront';
 COMMENT ON COLUMN lms.contrat.nb_max_reglements IS 'Un contrat peut être réglé en plusieurs fois, nombre maximum de règlement';
@@ -62,8 +63,13 @@ COMMENT ON TABLE lms.formule IS 'Assortiment de divers fromages gérés par le f
 CREATE TABLE lms.fromage (
     id SERIAL PRIMARY KEY,
     formule_id INTEGER REFERENCES lms.formule(id),
-    sans_sucre BOOLEAN NOT NULL, 
-    supplement BOOLEAN NOT NULL
+    supplement BOOLEAN NOT NULL,
+    sans_sucre BOOLEAN NOT NULL
 ) INHERITS (lms.contrat);
 COMMENT ON COLUMN lms.fromage.sans_sucre IS 'retrait des suppléments sucrés, oui ou non';
 COMMENT ON COLUMN lms.fromage.supplement IS 'Supplement aromatisé, oui ou non';
+
+INSERT INTO lms.formule(nom) VALUES ('A');
+INSERT INTO lms.formule(nom) VALUES ('B');
+INSERT INTO lms.formule(nom) VALUES ('C');
+INSERT INTO lms.formule(nom) VALUES ('Autres');
