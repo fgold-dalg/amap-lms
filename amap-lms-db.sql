@@ -1,9 +1,10 @@
 CREATE SCHEMA IF NOT EXISTS lms
     AUTHORIZATION postgres;
 
-CREATE TABLE IF NOT EXISTS lms.adherent
+CREATE TABLE IF NOT EXISTS lms.personne
 (
     id serial PRIMARY KEY,
+    categorie VARCHAR(30),
     nom VARCHAR(30),
     prenom VARCHAR(30),
     adresse VARCHAR(200),
@@ -13,7 +14,7 @@ CREATE TABLE IF NOT EXISTS lms.adherent
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS lms.adherent
+ALTER TABLE IF EXISTS lms.personne
     OWNER to postgres;
 
 CREATE TABLE lms.tarif (
@@ -25,13 +26,16 @@ CREATE TABLE lms.tarif (
 CREATE TABLE lms.contrat (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
-    responsable_id INTEGER REFERENCES lms.adherent(id),
+    responsable_id INTEGER REFERENCES lms.personne(id),
+    fournisseur_id INTEGER REFERENCES lms.personne(id),
     nb_max_reglements INTEGER NOT NULL,
     tarif_id INTEGER REFERENCES lms.tarif(id),
     commentaire VARCHAR(255)
 );
 COMMENT ON TABLE lms.contrat IS 'La table "contrat" est une table "parent" qui contient des rubriques que toutes les tables héritantes auront';
 COMMENT ON COLUMN lms.contrat.nb_max_reglements IS 'Un contrat peut être réglé en plusieurs fois, nombre maximum de règlement';
+COMMENT ON COLUMN lms.contrat.responsable_id IS 'Membre du CA qui gère la relation entre les adhérents et le fournisseur d un contrat';
+COMMENT ON COLUMN lms.contrat.fournisseur_id IS 'Un fournisseur est celui qui propose un contrat aux adhérents';
 
 CREATE TABLE lms.legume (
     id SERIAL PRIMARY KEY,

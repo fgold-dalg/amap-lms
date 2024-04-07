@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
 
-// Règles de validation du formulaire d'ajout  et de modification des adhérents
-const adherentValidator = [
+// Règles de validation du formulaire d'ajout  et de modification des personnes
+const personneValidator = [
   body('nom', 'Ce champs ne peut être vide').notEmpty(),
   body('prenom', 'Ce champs ne peut être vide').notEmpty(),
   body('adresse', 'Ce champs ne peut être vide').notEmpty(),
@@ -21,6 +21,6 @@ const tarifValidator = [
 ];
 
 module.exports = {
-    adherentValidator,
+    personneValidator,
     tarifValidator
 }

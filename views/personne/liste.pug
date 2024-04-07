@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+  h1= titre
+  a(href='/personne/ajouter') Ajouter un personne
+  // Affichage des Personnes
+  div
+    table 
+      thead 
+        tr 
+          th Nom 
+          th Prénom
+          th Catégorie
+          th Adresse
+          th Courriel
+          th Téléphone
+          th Action
+      tbody 
+        each personne in listePersonne 
+          tr
+            td= personne.nom
+            td= personne.prenom
+            td= personne.categorie
+            td= personne.adresse
+            td= personne.courriel
+            td= personne.telephone
+            td 
+              a(title='Supprimer' href='/personne/supprimer/'+personne.id class='pop-up-confirmation') 	&#10060; 
+              a(title='Modifier' href='/personne/modifier/'+personne.id) 	&#128394; 
+        else 
+          tr 
+            td Pas de données          
+      tfoot 
+        tr 
+          th Nombre personne(s)
+          td= listePersonne.length
