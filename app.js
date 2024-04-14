@@ -8,7 +8,14 @@ var indexRouter = require('./routes/index-router');
 var personneRouter = require('./routes/personne-router');
 var tarifRouter = require('./routes/tarif-router');
 
+// Utilisation du module permettant de définir un nouveau dossier par défaut pour la favicon
+var favicon = require('serve-favicon')
+var path = require('path')
+
 var app = express();
+
+// Définition du dossier contenant la favicon
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')))
 
 // port de connection au site web
 const port = 3000
