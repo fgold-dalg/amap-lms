@@ -1,7 +1,5 @@
 /* Connection à la base de données postgresql */
-var config = require("../config");
-var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://"+config.database.user+":"+config.database.pwd+"@"+config.database.host+":"+config.database.port+"/"+config.database.db);
+const db = require('../utils/db')
 
 module.exports = {
     ajouter,
