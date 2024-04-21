@@ -32,7 +32,7 @@ sudo vim /lib/systemd/system/amap_lms.service
 	[Service]
 	Environment=NODE_PORT=3000
 	Type=simple
-	User=fgold-dalg
+	User=utilisateur_linux
 	ExecStart=/usr/bin/node /home/fgold-dalg/projet/amap-lms/app.js
 	Restart=on-failure
 
@@ -46,10 +46,12 @@ sudo systemctl daemon-reload
 
 ## 4.2 Alias pour executer plus vite les lancement, arrêt et statut du service créé
 ```
-alias -p lms="sudo systemctl start amap_lms.service"
-alias -p lms-i="sudo systemctl status amap_lms.service"
-alias -p lms-s="sudo systemctl stop amap_lms.service"
-alias -p lms-r="sudo systemctl restart amap_lms.service"
+.bash_aliases
+
+	alias -p lms="sudo systemctl start amap_lms.service"
+	alias -p lms-i="sudo systemctl status amap_lms.service"
+	alias -p lms-s="sudo systemctl stop amap_lms.service"
+	alias -p lms-r="sudo systemctl restart amap_lms.service"
 ```
 
 ## 4.3 Création d'un alias dans le dns local
