@@ -5,10 +5,17 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index-router');
-var adherentRouter = require('./routes/adherent-router');
+var personneRouter = require('./routes/personne-router');
 var tarifRouter = require('./routes/tarif-router');
 
+// Utilisation du module permettant de définir un nouveau dossier par défaut pour la favicon
+var favicon = require('serve-favicon')
+var path = require('path')
+
 var app = express();
+
+// Définition du dossier contenant la favicon
+app.use(favicon(path.join(__dirname, 'public/images', 'favicon.ico')))
 
 // port de connection au site web
 const port = 3000
@@ -24,7 +31,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/adherent', adherentRouter);
+app.use('/personne', personneRouter);
 app.use('/tarif', tarifRouter);
 
 // catch 404 and forward to error handler

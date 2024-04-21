@@ -1,0 +1,47 @@
+extends ../layout
+
+block content
+  h1= titre
+  form(
+    role='form'
+    action='/personne/ajouter-modifier'
+    method='POST' 
+  )
+    // le type hidden : Permet de récupérer de façon transparente l'id quand il existe afin de distinguer la modification d'un ajout
+    input(type='hidden' name='id' value=personne.id)
+    // Champs de saisie utilisateur pré-rempli si la valeur (value) existe
+    label Catégorie :  
+    select(type='text' name='categorie')
+      if personne.categorie=='fournisseur'
+        option(value="adherent") adherent 
+        option(value="fournisseur" selected) fournisseur
+      else
+        option(value="adherent" selected) adherent 
+        option(value="fournisseur") fournisseur
+    label Nom :  
+    input(type='text' name='nom' value=personne.nom)
+    label Prénom :  
+    input(type='text' name='prenom' value=personne.prenom)
+    label Adresse :  
+    input(type='text' name='adresse' value=personne.adresse)
+    label Téléphone :
+    if personne.tel  
+      input(type='tel' name='tel' value=personne.tel) 
+    else  
+      input(type='tel' name='tel' placeholder='0102030405')
+    label Courriel :  
+    if personne.courriel
+      input(type='email' name='courriel' value=personne.courriel)
+    else  
+      input(type='email' name='courriel' placeholder='courriel@domain.com') 
+    input(type='submit' value='Envoyer')
+
+  // Affichage des erreurs 
+  div(class='rouge')
+    ul
+      each erreur in listeErreur
+        li= erreur.path+':  '+erreur.msg
+
+
+
+

@@ -1,5 +1,5 @@
 // Affiche  une pop-up qui demande confirmation pour chaque éléments html de la classe "pop-up-confirmation"
-// par exemple lors du choix de suppression (par clic sur le bouton X) d'un adhérent
+// par exemple lors du choix de suppression (par clic sur le bouton X) d'une personne
 document.addEventListener('DOMContentLoaded', () => {
   // Sélectionnez tous les liens avec la classe "pop-up-confirmation"
   var links = document.querySelectorAll('.pop-up-confirmation');
