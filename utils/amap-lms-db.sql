@@ -38,8 +38,7 @@ COMMENT ON COLUMN lms.contrat.responsable_id IS 'Membre du CA qui gère la relat
 COMMENT ON COLUMN lms.contrat.fournisseur_id IS 'Un fournisseur est celui qui propose un contrat aux adhérents';
 
 CREATE TABLE lms.legume (
-    id SERIAL PRIMARY KEY,
-    tarif DECIMAL(10, 2) NOT NULL
+    id SERIAL PRIMARY KEY
 ) INHERITS (lms.contrat);
 
 CREATE TABLE lms.oeuf (
