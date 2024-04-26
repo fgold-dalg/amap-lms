@@ -10,13 +10,13 @@ module.exports = {
 };
 
 // Requête SQL ajouter un contrat legume
-function ajouter(nom,responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire){
-    return db.one("INSERT INTO lms.legume(nom,responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *",[nom,responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire])
+function ajouter(responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire){
+    return db.one("INSERT INTO lms.legume(responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire) VALUES ($1,$2,$3,$4,$5) RETURNING *",[responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire])
 }
 
 // Requête SQL récupérer tous les contrats legumes
 function recupererToutLeg(){
-    var resultat = db.many("SELECT id FROM lms.legume ORDER BY nom ASC");
+    var resultat = db.many("SELECT id FROM lms.legume ORDER BY id ASC");
     return resultat;
 } 
 
@@ -33,6 +33,6 @@ function supprimer(id){
 } 
 
 // Requête SQL modifier un contrat legume
-function modifier(nom,responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire,id){
-    return db.one("UPDATE lms.legume SET nom = $1, responsable_id = $2, fournisseur_id = $3, nb_max_reglements = $4, tarif_id = $5, commentaire = $6 WHERE id = $7 RETURNING id",[nom,responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire,id]);
+function modifier(responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire,id){
+    return db.one("UPDATE lms.legume SET responsable_id = $1, fournisseur_id = $2, nb_max_reglements = $3, tarif_id = $4, commentaire = $5 WHERE id = $6 RETURNING id",[responsable_id,fournisseur_id,nb_max_reglements,tarif_id,commentaire,id]);
 }

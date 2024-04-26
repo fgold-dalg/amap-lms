@@ -35,7 +35,6 @@ router.get('/ajouter', function(req, res) {
  */
 router.post('/ajouter-modifier',formValidator.legumeValidator, function(req, res, next) {
   var legume = {
-    nom: req.body['nom'],
     responsableId: req.body['responsable_id'],
     fournisseurId: req.body['fournisseur_id'],
     nbMaxReglements: req.body['nb_max_reglements'],
@@ -90,7 +89,6 @@ router.get('/modifier/:idLeg', async function(req, res) {
       // Permet de stabiliser l'assignation des valeurs de la base de données dans une variable structurée
       legume = {
         id: donnees.id,
-        nom: donnees.nom.trim(),
         responsableId: donnees.responsableId.trim(),
         fournisseurId: donnees.fournisseurId.trim(),
         nbMaxReglements: donnees.nbMaxReglements.trim(),
