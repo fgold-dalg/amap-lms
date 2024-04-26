@@ -25,7 +25,6 @@ CREATE TABLE lms.tarif (
 
 CREATE TABLE lms.contrat (
     id SERIAL PRIMARY KEY,
-    nom VARCHAR(255) NOT NULL,
     responsable_id INTEGER REFERENCES lms.personne(id),
     fournisseur_id INTEGER REFERENCES lms.personne(id),
     nb_max_reglements INTEGER NOT NULL,
@@ -76,3 +75,9 @@ INSERT INTO lms.formule(nom) VALUES ('A');
 INSERT INTO lms.formule(nom) VALUES ('B');
 INSERT INTO lms.formule(nom) VALUES ('C');
 INSERT INTO lms.formule(nom) VALUES ('Autres');
+
+CREATE TABLE lms.adhesion (
+    id SERIAL PRIMARY KEY,
+	contrat_id INTEGER REFERENCES lms.contrat(id),
+	adherent_id INTEGER REFERENCES lms.personne(id) 
+);
