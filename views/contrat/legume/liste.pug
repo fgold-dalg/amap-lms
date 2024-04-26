@@ -1,0 +1,33 @@
+extends ../../../layout
+
+block content
+  h1= titre
+  a(href='/contrat/legume/ajouter') Ajouter un contrat Légumes
+  // Affichage des Contrats Légumes sousrcits
+  div
+    table 
+      thead 
+        tr 
+          th Nom 
+          th Prénom
+          th Tarif
+          th Quantité
+          th Commentaire
+      tbody 
+        each contrat in listeContrat 
+          tr
+            td= contrat.nom
+            td= contrat.prenom
+            td= contrat.tarif
+            td= contrat.quantite
+            td= contrat.commentaire
+            td 
+              a(title='Supprimer' href='/contrat/supprimer/'+contrat.id class='pop-up-confirmation') 	&#10060; 
+              a(title='Modifier' href='/contrat/modifier/'+contrat.id) 	&#128394; 
+        else 
+          tr 
+            td Pas de données          
+      tfoot 
+        tr 
+          th Nombre contrat(s) Légumes
+          td= listeContrat.length

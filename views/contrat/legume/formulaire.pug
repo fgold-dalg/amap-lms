@@ -1,0 +1,33 @@
+extends ../../../layout
+
+block content
+  h1= titre
+  form(
+    role='form'
+    action='/contrat/legume/ajouter-modifier'
+    method='POST' 
+  )
+    // le type hidden : Permet de récupérer de façon transparente l'id quand il existe afin de distinguer la modification d'un ajout
+    input(type='hidden' name='id' value=contrat.id)
+    // Champs de saisie utilisateur pré-rempli si la valeur (value) existe
+    label Adhérent :  
+    select(type='text' name='adherent') 
+      each adherent in listeAdherent
+        option(value=adherent.id) #{adherent.nom+' '+adherent.prenom}
+      else
+        option(value="vide") pas d\'adherent
+    label Nombre maximum de règlement autorisés  :  
+    input(type='number' min='1' name='nbmaxreg' value=contrat.nbMaxReglement)
+    label Commentaire :  
+    input(type='text' name='commentaire' value=contrat.commentaire)
+    input(type='submit' value='Envoyer')
+
+  // Affichage des erreurs 
+  div(class='rouge')
+    ul
+      each erreur in listeErreur
+        li= erreur.path+':  '+erreur.msg
+
+
+
+
