@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index-router');
 var personneRouter = require('./routes/personne-router');
 var tarifRouter = require('./routes/tarif-router');
+var legumeRouter = require('./routes/contrats/legume-router');
 
 // Utilisation du module permettant de définir un nouveau dossier par défaut pour la favicon
 var favicon = require('serve-favicon')
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/personne', personneRouter);
 app.use('/tarif', tarifRouter);
+app.use('/contrat/legume', legumeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

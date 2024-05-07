@@ -20,7 +20,15 @@ const tarifValidator = [
   body('prix', 'Format incorrect - un nombre est attendu').isNumeric(),
 ];
 
+// Règles de validation du formulaire d'ajout et de modification des tarifs
+const legumeValidator = [
+  body('adherent', 'Ce champs ne peut être vide').notEmpty(),
+  body('quantite', 'Ce champs ne peut être vide').notEmpty(),
+  body('quantite', 'Format incorrect - un nombre est attendu').isNumeric(),
+];
+
 module.exports = {
     personneValidator,
-    tarifValidator
+    tarifValidator,
+    legumeValidator
 }

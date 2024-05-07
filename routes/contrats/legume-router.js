@@ -2,54 +2,62 @@ var express = require('express');
 var router = express.Router();
 
 const modLegume = require('../../models/contrats/legume-models');
+const modAdherent = require('../../models/personne-models');
 const formValidator = require('../../models/form-validator');
 const { validationResult } = require('express-validator');
 
 
 /**
- * Obtention liste des legumes 
+ * Obtention liste des contrats legumes 
  */
 router.get('/', async function(req, res) {
-  var listeLegume= [];    
+  var listeContrat= [];    
   await modLegume.recupererToutLeg()
   .then(function (donnees) {
-    listeLegume= donnees;
+    listeContrat= donnees;
   })
   .catch(function (erreur) {
     console.log("ERROR:", erreur);
   });
-  res.render('legume/liste', { titre: 'Liste des legumes', listeLegume: listeLegume }); 
+  res.render('contrat/legume/liste', { titre: 'Liste des contrats legumes', listeContrat: listeContrat }); 
 });
 
 
 /**
- * Formulaire ajout d'un legume
+ * Formulaire ajout d'un contrat legume
  */
-router.get('/ajouter', function(req, res) {
-  res.render('legume/formulaire', { titre: 'Formulaire - Ajouter un Legume',legume:[], listeErreur:[] }); 
+router.get('/ajouter', async function(req, res) {
+  var listeAdherent= [];
+  await modAdherent.recupererToutAdh()
+  .then(function (donnees) {
+    listeAdherent= donnees;
+  })
+  .catch(function (erreur) {
+    console.log("ERROR:", erreur);
+  });
+  res.render('contrat/legume/formulaire', { titre: 'Formulaire - Ajouter un Legume', listeAdherent:listeAdherent, contrat:[], listeErreur:[] }); 
 });
 
 
 /**
- * Formulaire ajout ou de modification d'un legume - insertion/modification données dans base
+ * Formulaire ajout ou de modification d'un contrat legume - insertion/modification données dans base
  */
 router.post('/ajouter-modifier',formValidator.legumeValidator, function(req, res, next) {
-  var legume = {
-    responsableId: req.body['responsable_id'],
-    fournisseurId: req.body['fournisseur_id'],
-    nbMaxReglements: req.body['nb_max_reglements'],
-    tarifId: req.body['tarif_id'] ,
+  var listeAdherent= [];
+  var contrat = {
+    adherent: req.body['adherent'],
+    quantite: req.body['quantite'],
     commentaire: req.body['commentaire']
   };
   // Contrôle si erreur dans saisie formulaire
   const listeErreur = validationResult(req);
   if (listeErreur.isEmpty()) {
-    // Si id existe alors modification de l'legume existant sinon ajout du nouvel legume
+    // Si id existe alors modification de du contrat existant sinon ajout du nouveau contrat legume
     if ( req.body['id']){
-      legume.id = req.body['id'];
-      modLegume.modifier(legume.nom,legume.responsableId,legume.fournisseurId,legume.nbMaxReglements,legume.tarifId,legume.commentaire,legume.id)
+      contrat.id = req.body['id'];
+      modLegume.modifier(contrat.quantite,contrat.commentaire,contrat.id)
         .then(function () {
-          res.redirect('/legume/'); 
+          res.redirect('/contrat/legume/'); 
         })
         .catch(function (erreur) {
           console.log("ERROR:", erreur);
@@ -57,24 +65,33 @@ router.post('/ajouter-modifier',formValidator.legumeValidator, function(req, res
     }
     else{
       // Ajout dans base si pas d'erreur
-      modLegume.ajouter(legume.nom,legume.responsableId,legume.fournisseurId,legume.nbMaxReglements,legume.tarifId,legume.commentaire)
+      modLegume.ajouter(contrat.quantite,contrat.commentaire)
         .then(function () {
-          res.redirect('/legume/'); 
+          res.redirect('/contrat/legume/'); 
         })
         .catch(function (erreur) {
           console.log("ERROR:", erreur);
         });
     };
   } else{
-      // Affiche le bon titre de formulaire en fonction de l'existence d'un id (signifie qu'un legume existe => modification)
+      // Affiche le bon titre de formulaire en fonction de l'existence d'un id (signifie qu'un contrat legume existe => modification)
       if (req.body['id']) {
-        var titre = 'Formulaire - Modification d\'un Legume'
+        var titre = 'Formulaire - Modification d\'un contrat Legume'
       }
       else{
-        var titre = 'Formulaire - Ajout d\'un Legume'
+        var titre = 'Formulaire - Ajout d\'un contrat Legume'
       };
+
+      // Recuperation de la liste des adhérents
+      modAdherent.recupererToutAdh()
+      .then(function (donnees) {
+        listeAdherent= donnees;
+      })
+      .catch(function (erreur) {
+        console.log("ERROR:", erreur);
+      });
     // Affichage des erreurs trouvées lors de la saisie du formulaire ajout d'legume
-    res.render('legume/formulaire', { titre: titre, legume: legume, listeErreur: listeErreur.array() });
+    res.render('contrat/legume/formulaire', { titre: titre, contrat: contrat, listeAdherent:listeAdherent, listeErreur: listeErreur.array() });
   }
 });
 
@@ -91,7 +108,7 @@ router.get('/modifier/:idLeg', async function(req, res) {
         id: donnees.id,
         responsableId: donnees.responsableId.trim(),
         fournisseurId: donnees.fournisseurId.trim(),
-        nbMaxReglements: donnees.nbMaxReglements.trim(),
+        quantite: donnees.quantite.trim(),
         commentaire: donnees.commentaire,
         tarifId: donnees.tarifId.trim(),
       };
@@ -100,7 +117,7 @@ router.get('/modifier/:idLeg', async function(req, res) {
       console.log("ERROR:", erreur);
       res.send("L'ID legume : " + req.params.idLeg + " n'a pas été trouvé !");
     });
-    res.render('legume/formulaire', { titre: 'Formulaire - Modification d\'un Legume', legume: legume, listeErreur: [] }); 
+    res.render('contrat/legume/formulaire', { titre: 'Formulaire - Modification d\'un Legume', legume: legume, listeErreur: [] }); 
 });
 
 

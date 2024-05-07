@@ -1,4 +1,4 @@
-extends ../../../layout
+extends ../../layout
 
 block content
   h1= titre
@@ -15,9 +15,12 @@ block content
       each adherent in listeAdherent
         option(value=adherent.id) #{adherent.nom+' '+adherent.prenom}
       else
-        option(value="vide") pas d\'adherent
-    label Nombre maximum de règlement autorisés  :  
-    input(type='number' min='1' name='nbmaxreg' value=contrat.nbMaxReglement)
+        option(value="vide") pas d'adherent
+    label Nombre de panier : 
+    if !contrat.quantite
+      input(type='number' min='1' name='quantite' value="1")
+    else 
+      input(type='number' min='1' name='quantite' value=contrat.quantite)
     label Commentaire :  
     input(type='text' name='commentaire' value=contrat.commentaire)
     input(type='submit' value='Envoyer')
