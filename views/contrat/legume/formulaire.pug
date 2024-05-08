@@ -17,13 +17,16 @@ block content
       else
         option(value="vide") pas d'adherent
     label Nombre de panier : 
+    // Si pas de quantite definie, alors valeur par defaut : 1
     if !contrat.quantite
       input(type='number' min='1' name='quantite' value="1")
     else 
       input(type='number' min='1' name='quantite' value=contrat.quantite)
-    label Commentaire :  
+    label Commentaire * :  
     input(type='text' name='commentaire' value=contrat.commentaire)
     input(type='submit' value='Envoyer')
+  
+  p * valeur optionnelle
 
   // Affichage des erreurs 
   div(class='rouge')
