@@ -10,23 +10,23 @@ block content
     // le type hidden : Permet de récupérer de façon transparente l'id quand il existe afin de distinguer la modification d'un ajout
     input(type='hidden' name='id' value=contrat.id)
     // Champs de saisie utilisateur pré-rempli si la valeur (value) existe
-    label Adhérent :  
+    label Adhérent * :  
     select(type='text' name='adherent') 
       each adherent in listeAdherent
         option(value=adherent.id) #{adherent.nom+' '+adherent.prenom}
       else
         option(value="vide") pas d'adherent
-    label Nombre de panier : 
+    label Nombre de panier * : 
     // Si pas de quantite definie, alors valeur par defaut : 1
     if !contrat.quantite
       input(type='number' min='1' name='quantite' value="1")
     else 
       input(type='number' min='1' name='quantite' value=contrat.quantite)
-    label Commentaire * :  
+    label Commentaire :  
     input(type='text' name='commentaire' value=contrat.commentaire)
     input(type='submit' value='Envoyer')
   
-  p * valeur optionnelle
+  p * saisie obligatoire
 
   // Affichage des erreurs 
   div(class='rouge')

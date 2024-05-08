@@ -5,11 +5,11 @@ CREATE TABLE IF NOT EXISTS lms.personne
 (
     id serial PRIMARY KEY,
     categorie VARCHAR(30),
-    nom VARCHAR(30),
-    prenom VARCHAR(30),
+    nom VARCHAR(30) NOT NULL,
+    prenom VARCHAR(30) NOT NULL,
     adresse VARCHAR(200),
     courriel VARCHAR(150),
-    telephone VARCHAR(10)
+    telephone VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE lms.tarif (

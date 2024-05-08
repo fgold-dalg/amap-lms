@@ -4,9 +4,7 @@ const { body } = require('express-validator');
 const personneValidator = [
   body('nom', 'Ce champs ne peut être vide').notEmpty(),
   body('prenom', 'Ce champs ne peut être vide').notEmpty(),
-  body('adresse', 'Ce champs ne peut être vide').notEmpty(),
   //courriel  
-  body('courriel', 'Ce champs ne peut être vide').notEmpty(),
   body('courriel', 'Adresse de courriel invalide (nom@mail.fr)').isEmail(),
   //Téléphone
   body('tel', 'Format incorrect - 10 chiffres attendus').isInt(),

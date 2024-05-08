@@ -10,7 +10,7 @@ block content
     // le type hidden : Permet de récupérer de façon transparente l'id quand il existe afin de distinguer la modification d'un ajout
     input(type='hidden' name='id' value=personne.id)
     // Champs de saisie utilisateur pré-rempli si la valeur (value) existe
-    label Catégorie :  
+    label Catégorie * :  
     select(type='text' name='categorie')
       if personne.categorie=='fournisseur'
         option(value="adherent") adherent 
@@ -18,13 +18,13 @@ block content
       else
         option(value="adherent" selected) adherent 
         option(value="fournisseur") fournisseur
-    label Nom :  
+    label Nom * :  
     input(type='text' name='nom' value=personne.nom)
-    label Prénom :  
+    label Prénom * :  
     input(type='text' name='prenom' value=personne.prenom)
     label Adresse :  
     input(type='text' name='adresse' value=personne.adresse)
-    label Téléphone :
+    label Téléphone * : 
     if personne.tel  
       input(type='tel' name='tel' value=personne.tel) 
     else  
@@ -36,7 +36,7 @@ block content
       input(type='email' name='courriel' placeholder='courriel@domain.com') 
     input(type='submit' value='Envoyer')
 
-  p * valeur optionnelle
+  p * saisie obligatoire
   
   // Affichage des erreurs 
   div(class='rouge')
