@@ -33,7 +33,7 @@ router.get('/ajouter', function(req, res) {
 /**
  * Formulaire ajout ou de modification d'un tarif - insertion/modification données dans base
  */
-router.post('/ajouter-modifier',formValidator.tarifValidator, function(req, res, next) {
+router.post('/ajouter-modifier',formValidator.tarifValidator, async function(req, res, next) {
   var tarif = {
     nom: req.body['nom'],
     prix: req.body['prix'],
@@ -44,7 +44,7 @@ router.post('/ajouter-modifier',formValidator.tarifValidator, function(req, res,
     // Si id existe alors modification de l'tarif existant sinon ajout du nouvel tarif
     if ( req.body['id']){
       tarif.id = req.body['id'];
-      modTarif.modifier(tarif.nom,tarif.prix,tarif.id)
+      await modTarif.modifier(tarif.nom,tarif.prix,tarif.id)
         .then(function () {
           res.redirect('/tarif/'); 
         })
@@ -54,7 +54,7 @@ router.post('/ajouter-modifier',formValidator.tarifValidator, function(req, res,
     }
     else{
       // Ajout dans base si pas d'erreur
-      modTarif.ajouter(tarif.nom,tarif.prix)
+      await modTarif.ajouter(tarif.nom,tarif.prix)
         .then(function () {
           res.redirect('/tarif/'); 
         })

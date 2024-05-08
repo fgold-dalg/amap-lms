@@ -22,7 +22,7 @@ function recupererToutLeg(){
 
 // Requête SQL récupérer un contrat legume
 function recupererUnLeg(id){
-    var resultat = db.one("SELECT id FROM lms.contrat_legume WHERE id=$1",[id]);
+    var resultat = db.one("SELECT id, quantite, commentaire FROM lms.contrat_legume WHERE id=$1",[id]);
     return resultat;
 } 
 

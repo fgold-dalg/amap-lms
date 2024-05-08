@@ -100,24 +100,31 @@ router.post('/ajouter-modifier',formValidator.legumeValidator, function(req, res
  * Formulaire modification d'un legume
  */
 router.get('/modifier/:idLeg', async function(req, res) {
-  var legume = '';
+  var contrat = '';
+  var listeAdherent= [];
   await modLegume.recupererUnLeg(req.params.idLeg)
-    .then(function (donnees) {
+    .then(async function (donneesContrat) {
       // Permet de stabiliser l'assignation des valeurs de la base de données dans une variable structurée
-      legume = {
-        id: donnees.id,
-        responsableId: donnees.responsableId.trim(),
-        fournisseurId: donnees.fournisseurId.trim(),
-        quantite: donnees.quantite.trim(),
-        commentaire: donnees.commentaire,
-        tarifId: donnees.tarifId.trim(),
+      contrat = {
+        id: donneesContrat.id,
+        quantite: donneesContrat.quantite,
+        commentaire: donneesContrat.commentaire,
       };
+
+      // Recupération de la liste des adhérents
+      await modAdherent.recupererToutAdh()
+      .then(function (donneesAdherent) {
+        listeAdherent= donneesAdherent;
+      })
+      .catch(function (erreur) {
+        console.log("ERROR:", erreur);
+      });
     })
     .catch(function (erreur) {
       console.log("ERROR:", erreur);
       res.send("L'ID legume : " + req.params.idLeg + " n'a pas été trouvé !");
     });
-    res.render('contrat/legume/formulaire', { titre: 'Formulaire - Modification d\'un Legume', legume: legume, listeErreur: [] }); 
+    res.render('contrat/legume/formulaire', { titre: 'Formulaire - Modification d\'un Legume', listeAdherent: listeAdherent, contrat: contrat, listeErreur: [] }); 
 });
 
 

@@ -33,7 +33,7 @@ router.get('/ajouter', function(req, res) {
 /**
  * Formulaire ajout ou de modification d'un personne - insertion/modification données dans base
  */
-router.post('/ajouter-modifier',formValidator.personneValidator, function(req, res, next) {
+router.post('/ajouter-modifier',formValidator.personneValidator, async function(req, res, next) {
   var personne = {
     categorie: req.body['categorie'],
     nom: req.body['nom'],
@@ -48,7 +48,7 @@ router.post('/ajouter-modifier',formValidator.personneValidator, function(req, r
     // Si id existe alors modification de l'personne existant sinon ajout du nouvel personne
     if ( req.body['id']){
       personne.id = req.body['id'];
-      modPersonne.modifier(personne.categorie,personne.nom,personne.prenom,personne.adresse,personne.courriel,personne.tel,personne.id)
+      await modPersonne.modifier(personne.categorie,personne.nom,personne.prenom,personne.adresse,personne.courriel,personne.tel,personne.id)
         .then(function () {
           res.redirect('/personne/'); 
         })
@@ -58,7 +58,7 @@ router.post('/ajouter-modifier',formValidator.personneValidator, function(req, r
     }
     else{
       // Ajout dans base si pas d'erreur
-      modPersonne.ajouter(personne.categorie,personne.nom,personne.prenom,personne.adresse,personne.courriel,personne.tel)
+      await modPersonne.ajouter(personne.categorie,personne.nom,personne.prenom,personne.adresse,personne.courriel,personne.tel)
         .then(function () {
           res.redirect('/personne/'); 
         })
