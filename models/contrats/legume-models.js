@@ -16,7 +16,7 @@ function ajouter(quantite,commentaire){
 
 // Requête SQL récupérer tous les contrats legumes
 function recupererToutLeg(){
-    var resultat = db.many("SELECT id FROM lms.contrat_legume ORDER BY id ASC");
+    var resultat = db.many("SELECT id, quantite, commentaire FROM lms.contrat_legume ORDER BY id ASC");
     return resultat;
 } 
 

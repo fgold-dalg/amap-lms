@@ -127,7 +127,7 @@ router.get('/modifier/:idLeg', async function(req, res) {
 router.get('/supprimer/:idLeg', async function(req, res) {
   await modLegume.supprimer(req.params.idLeg)
     .then(function () {
-      res.redirect('/legume/'); 
+      res.redirect('/contrat/legume/'); 
     })
     .catch(function (erreur) {
       console.log("ERROR:", erreur);
