@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+const routerSouscription = require('../souscription-router');
 const modLegume = require('../../models/contrats/legume-models');
 const modAdherent = require('../../models/personne-models');
+const modSouscription = require('../../models/souscription-models');
 const formValidator = require('../../models/form-validator');
 const { validationResult } = require('express-validator');
 
@@ -42,7 +44,7 @@ router.get('/ajouter', async function(req, res) {
 /**
  * Formulaire ajout ou de modification d'un contrat legume - insertion/modification données dans base
  */
-router.post('/ajouter-modifier',formValidator.legumeValidator, function(req, res, next) {
+router.post('/ajouter-modifier',formValidator.legumeValidator, async function(req, res, next) {
   var listeAdherent= [];
   var contrat = {
     adherent: req.body['adherent'],
@@ -65,9 +67,20 @@ router.post('/ajouter-modifier',formValidator.legumeValidator, function(req, res
     }
     else{
       // Ajout dans base si pas d'erreur
-      modLegume.ajouter(contrat.quantite,contrat.commentaire)
-        .then(function () {
-          res.redirect('/contrat/legume/'); 
+      await routerSouscription.existSouscription(contrat.adherent)
+        .then(function (donnees) {              
+          if (donnees == null) {
+            modLegume.ajouter(contrat.quantite,contrat.commentaire)
+              .then(function () {
+                modSouscription.ajouter(contrat.adherent, new Date());
+                res.redirect('/contrat/legume/'); 
+              })
+              .catch(function (erreur) {
+                console.log("ERROR:", erreur);
+              });
+          } else {
+            console.log("Souscription existe déjà");
+          };
         })
         .catch(function (erreur) {
           console.log("ERROR:", erreur);
@@ -141,4 +154,6 @@ router.get('/supprimer/:idLeg', async function(req, res) {
       res.send("L'ID legume : " + req.params.idLeg + " n'a pas été trouvé !");
     });
 });
+
+
 module.exports = router;
