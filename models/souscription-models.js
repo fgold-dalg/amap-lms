@@ -2,7 +2,7 @@
 const db = require('../utils/db')
 
 module.exports = {
-    ajouter,
+    ajouterLegume,
     recupererToutSous,
     recupererUnSous,
     recupererUnSousAdh,
@@ -10,9 +10,9 @@ module.exports = {
     modifier
 };
 
-// Requête SQL ajouter une souscription
-function ajouter(adherentId, dateCreation){
-    return db.one("INSERT INTO lms.souscription( adherent_id, date_creation) VALUES ($1, $2) RETURNING id",[adherentId, dateCreation])
+// Requête SQL ajout d'un contrat légume à une nouvelle souscription
+function ajouterLegume(idContratLegume, adherentId, dateCreation){
+    return db.one("INSERT INTO lms.souscription(contrat_legume_id, adherent_id, date_creation) VALUES ($1, $2, $3) RETURNING id",[idContratLegume, adherentId, dateCreation])
 }
 
 // Requête SQL récupérer toutes les souscription

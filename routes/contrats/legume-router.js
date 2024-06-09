@@ -52,8 +52,8 @@ router.post('/ajouter-modifier',formValidator.legumeValidator, async function(re
     commentaire: req.body['commentaire']
   };
   // Contrôle si erreur dans saisie formulaire
-  const listeErreur = validationResult(req);
-  if (listeErreur.isEmpty()) {
+  var listeErreur = validationResult(req).array();
+  if (listeErreur.length == 0) {
     // Si id existe alors modification de du contrat existant sinon ajout du nouveau contrat legume
     if ( req.body['id']){
       contrat.id = req.body['id'];
@@ -69,17 +69,23 @@ router.post('/ajouter-modifier',formValidator.legumeValidator, async function(re
       // Ajout dans base si pas d'erreur
       await routerSouscription.existSouscription(contrat.adherent)
         .then(function (donnees) {              
+          // Création d'une souscription si l'adhérent n'a pas de contrat légume
           if (donnees == null) {
             modLegume.ajouter(contrat.quantite,contrat.commentaire)
-              .then(function () {
-                modSouscription.ajouter(contrat.adherent, new Date());
+              .then(function (contratLegume) {
+                // Création d'une souscription
+                modSouscription.ajouterLegume(contratLegume.id, contrat.adherent, new Date());
                 res.redirect('/contrat/legume/'); 
               })
               .catch(function (erreur) {
                 console.log("ERROR:", erreur);
               });
           } else {
-            console.log("Souscription existe déjà");
+            listeErreur =  [   {
+              msg: 'Cet adhérent a déjà un contrat légumes',
+              path: 'erreur',
+            }];
+            res.render('contrat/legume/formulaire', { titre: titre, contrat: contrat, listeAdherent:listeAdherent, listeErreur: listeErreur });
           };
         })
         .catch(function (erreur) {
@@ -104,7 +110,7 @@ router.post('/ajouter-modifier',formValidator.legumeValidator, async function(re
         console.log("ERROR:", erreur);
       });
     // Affichage des erreurs trouvées lors de la saisie du formulaire ajout d'legume
-    res.render('contrat/legume/formulaire', { titre: titre, contrat: contrat, listeAdherent:listeAdherent, listeErreur: listeErreur.array() });
+    res.render('contrat/legume/formulaire', { titre: titre, contrat: contrat, listeAdherent:listeAdherent, listeErreur: listeErreur });
   }
 });
 

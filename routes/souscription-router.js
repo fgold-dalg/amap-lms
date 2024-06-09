@@ -23,6 +23,7 @@ async function existSouscription(adherentId) {
   .catch(function (erreur) {
     console.log("ERROR:", erreur);
   });
+  return idContratLegume;
 }
 
 module.exports = {
